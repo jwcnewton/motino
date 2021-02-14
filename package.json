@@ -1,0 +1,24 @@
+{
+  "name": "esp-gui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node .",
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w espruino"
+  },
+  "author": "Jonathan Newton",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^11.2.0",
+    "serialport": "^9.0.6"
+  },
+  "dependencies": {
+    "electron": "^11.2.0",
+    "electron-rebuild": "^2.3.4",
+    "electron-store": "^7.0.0",
+    "espruino": "^0.1.37",
+    "monaco-editor": "^0.21.3"
+  }
+}
