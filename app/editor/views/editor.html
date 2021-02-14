@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'none'; script-src file: 'sha256-ZGit2Ec8exvpmhDeav8Cc9SfDmfBub7j+Y2rD8X/9pY='; style-src 'unsafe-inline' file:; font-src file:" />
+	<link rel="stylesheet" href="../style/editor.css" content="default-src">
+</head>
+
+<body>
+	<script>
+		(function () {
+			window.dirRoot = "../../../";
+			window.amdLoader = require(dirRoot + 'node_modules/monaco-editor/min/vs/loader.js');
+			window.amdRequire = amdLoader.require;
+			window.amdDefine = amdLoader.require.define;
+		})();
+	</script>
+
+	<div class="container">
+		<div id="editor"></div>
+		<div class="icon-bar">
+			<a id="run" href="#"><i class="fa fa-play"></i></a>
+			<a id="open" href="#"><i class="fa fa-folder"></i></a>
+			<a id="settings" href="#"><i class="fa fa-cog"></i></a>
+			<a id="download" href="#"><i class="fa fa-download"></i></a>
+			<a id="clear" href="#"><i class="fa fa-trash"></i></a>
+		</div>
+		<div id="terminal"></div>
+	</div>
+
+	<div id="settings-modal" class="modal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close">&times;</span>
+				<h2>SETTINGS</h2>
+			</div>
+			<div class="modal-body">
+				<form id="settings-form">
+					<label for="baudrate">Boad Rate:</label><br>
+					<select name="baudrate">
+						<option value="9600">9600</option>
+						<option value="14400">14400</option>
+						<option value="19200">19200</option>
+						<option value="28800">28800</option>
+						<option value="38400">38400</option>
+						<option value="57600">57600</option>
+						<option value="115200" selected="115200">115200</option>
+					</select>
+					<br>
+					<label for="portname">Port Name:</label><br>
+					<input type="text" id="portname" name="portname">
+					<br>
+					<label for="resetbeforesend">Reset Before Sending:</label><br>
+					<input type="checkbox" id="resetbeforesend" name="resetbeforesend">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="modal-btn" id="modal-save">SAVE</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="toast"></div>
+</body>
+<script src="../scripts/editor.js"></script>
+<script src="../scripts/eventListener.js"></script>
+
+</html>
