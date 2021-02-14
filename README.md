@@ -27,3 +27,12 @@ Running
 
 Settings
 <img src='./docs/images/settings.png'>
+
+### TODO
+
+- [ ] Reset on write
+- [ ] Interactive shell
+- [ ] Format console response
+- [ ] Allow flashing
+- [ ] List available ports
+- [ ] Generate packages
