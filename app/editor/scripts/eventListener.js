@@ -1,6 +1,6 @@
 window.amdDefine('eventListener', [], function () {
     const ipc = require('electron').ipcRenderer;
-
+    this.isExpanded = false;
     function settings(params) {
         var modal = document.getElementById("settings-modal");
         var modalSave = document.getElementById("modal-save");
@@ -75,12 +75,28 @@ window.amdDefine('eventListener', [], function () {
         }
     }
 
+    function expando() {
+        this.isExpanded = !this.isExpanded;
+
+        if(this.isExpanded){
+            document.getElementById("terminal").style.flex = "0%";
+            document.getElementById("editor").style.flex = "95%";
+            this.editor.layout();
+        } else {
+            document.getElementById("terminal").style.flex = "47.5%";
+            document.getElementById("editor").style.flex = "47.5%";
+            document.getElementById("editor").style.width = "0%";
+            this.editor.layout();
+        }
+    }
+
     function registerEventListener() {
         document.getElementById("settings").onclick = settings;
         document.getElementById("open").onclick = open;
         document.getElementById("run").onclick = run.bind(this);
         document.getElementById("download").onclick = download;
         document.getElementById("clear").onclick = clear.bind(this);
+        document.getElementById("expando").onclick = expando.bind(this);
 
         registerEvents();
     }
@@ -109,6 +125,9 @@ window.amdDefine('eventListener', [], function () {
 
     return function (editor) {
         this.editor = editor;
+        window.onresize = () => {
+            editor.layout();
+        };
 
         registerEventListener();
     };

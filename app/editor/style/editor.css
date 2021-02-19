@@ -2,19 +2,34 @@ body {
     margin: 0;
     font-family: Arial, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+.monaco-editor .overlayWidgets {
+    position: initial !important;
+}
+
+.expando {
+    font-size: 26px;
+    right: 1.5vw;
+    bottom: 0.5vw;
+    z-index: 1;
+}
+
+.expando a:hover{
+    font-size: 28px;
+}
 
 .container {
     display: flex;
+    flex-direction: row;
 }
 
 #editor {
-    flex: 50%;
+    flex: 47.5%;
     height: 100vh;
 }
 
 #terminal {
     white-space: pre-wrap;
-    flex: 50%;
+    flex: 47.5%;
     height: 100vh;
     font-family: Courier;
     background-color: #000000;
@@ -26,8 +41,8 @@ body {
 }
 
 .icon-bar {
+    flex: 5%;
     background-color: #555;
-    overflow: auto;
 }
 
 .icon-bar a {
