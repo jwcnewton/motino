@@ -5,12 +5,13 @@
 	<meta charset="UTF-8" />
 
 	<meta http-equiv="Content-Security-Policy"
-		content="default-src 'none'; script-src file: 'sha256-ZGit2Ec8exvpmhDeav8Cc9SfDmfBub7j+Y2rD8X/9pY='; style-src 'unsafe-inline' file:; font-src file:" />
+		content="default-src 'none'; script-src file: 'sha256-Gzvn9MWdZ2vgLFgBUG1JBUFdzGmWpzoUCXNZcizUwv4='; style-src 'unsafe-inline' file:; font-src file:" />
 	<link rel="stylesheet" href="../style/editor.css" content="default-src">
 </head>
 
 <body>
 	<script>
+		window.$ = window.jQuery = require('jquery');
 		(function () {
 			window.dirRoot = "../../../";
 			window.amdLoader = require(dirRoot + 'node_modules/monaco-editor/min/vs/loader.js');

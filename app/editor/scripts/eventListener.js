@@ -19,14 +19,8 @@ window.amdDefine('eventListener', [], function () {
         }
 
         modalSave.onclick = function (event) {
-            var form = document.getElementById("settings-form");
-            const settings = {};
-            for (let i = 0; i < form.elements.length; i++) {
-                const elem = form.elements[i];
-                settings[elem.name] = elem.value
-            }
+            let settings = $('#settings-form').serializeToFlatObject();
             ipc.send('settings', settings);
-
             modal.style.display = "none";
         }
     }
@@ -68,7 +62,12 @@ window.amdDefine('eventListener', [], function () {
         var formData = document.getElementById('settings-form');
         for (let setting in settings) {
             try {
-                formData.querySelector(`*[name="${setting}"]`).value = settings[setting];
+                var inputForm = formData.querySelector(`*[name="${setting}"]`).type;
+                if(inputForm == "checkbox"){
+                    formData.querySelector(`*[name="${setting}"]`).checked = settings[setting];
+                } else {
+                    formData.querySelector(`*[name="${setting}"]`).value = settings[setting];
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -80,11 +79,13 @@ window.amdDefine('eventListener', [], function () {
 
         if(this.isExpanded){
             document.getElementById("terminal").style.flex = "0%";
+            document.getElementById("terminal").style.display = "none";
             document.getElementById("editor").style.flex = "95%";
             this.editor.layout();
         } else {
             document.getElementById("terminal").style.flex = "47.5%";
             document.getElementById("editor").style.flex = "47.5%";
+            document.getElementById("terminal").style.display = "flex";
             document.getElementById("editor").style.width = "0%";
             this.editor.layout();
         }

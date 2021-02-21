@@ -1,17 +1,19 @@
 const Store = require('electron-store');
 
 const espConfigSchema = {
-	baudrate: {
-	},
-	portname: {
+    baudrate: {
+        type: 'number'
+    },
+    portname: {
     },
     resetbeforesend: {
+        type: 'boolean'
     }
 };
 
 const espConfigDefaults = {
     baudrate: 115200,
-	portname: "/dev/tty.SLAB_USBtoUART",
+    portname: "/dev/tty.SLAB_USBtoUART",
     resetbeforesend: false
 }
 
@@ -21,15 +23,32 @@ const espConfig = new Store({
 });
 
 function getConfig() {
-    return espConfig.store;
+    var config = espConfig.store
+    for (let setting in config) {
+        const val = config[setting];
+        config[setting] = tryParse(val);
+    }
+    return config;
 }
 
 function getConfigValue(property) {
-    return espConfig.get(property);
+    return tryParse(espConfig.get(property));
 }
 
 function setConfig(config) {
+    for (let setting in config) {
+        const val = config[setting];
+        config[setting] = tryParse(val);
+    }
     return espConfig.set(config);
+}
+
+function tryParse(val) {
+    try {
+        return JSON.parse(val);
+    } catch (e) {
+        return val;
+    }
 }
 
 module.exports = {
