@@ -2,6 +2,7 @@ const ipc = require('electron').ipcMain;
 const uiAdaptor = require('./uiAdaptor');
 const espTool = require('./espTool');
 const espConfig = require('./espConfig');
+this.mainWindow = null;
 
 function registerListeners() {
     ipc.on('settings', (event, messages) => {
@@ -19,10 +20,12 @@ function registerListeners() {
     ipc.on('getSettings', (event, msg) => {
         event.reply('writeSettings', espConfig.getConfig());
     });
+
+    espTool.pipeEspruino();
 }
 
 function emitStartup(mainWindow) {
-    //TODO: Main window startup
+    this.mainWindow = mainWindow;
 }
 
 module.exports = {

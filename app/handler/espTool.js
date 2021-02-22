@@ -2,6 +2,7 @@ const { Notification } = require('electron')
 const esp = require("espruino");
 const conf = require("./espConfig");
 const espHacks = require('./utils/espruinoNodeHacks');
+const espTermHacks = require('./utils/espruinoTerminalHacks');
 
 esp.init(function () {
     Espruino.Config.BAUD_RATE = conf.getConfigValue("baudrate");
@@ -22,7 +23,8 @@ function sendCodeCallback(event, res) {
     if (res == undefined) {
         noResponse("Unable to connect!");
     } else {
-        event.reply('termOutput', res);
+        var formatedResult = espTermHacks.outputDataHandler(res);
+        event.reply('termOutput', formatedResult);
     }
 }
 
@@ -52,8 +54,26 @@ function getPorts() {
     });
 }
 
+function pipeEspruino() {
+    var response;
+    var rawResArr = [];
+
+    const prevReader = Espruino.Core.Serial.startListening(function (data) {
+        data = new Uint8Array(data);
+        rawResArr.push(data)
+        for (var i = 0; i < data.length; i++) {
+            response += String.fromCharCode(data[i]);
+        }
+        prevReader(data);
+
+        console.log(response);
+    });
+
+}
+
 module.exports = {
     writeToEsp: writeToEsp,
     clearEsp: clearEsp,
-    getPorts: getPorts
+    getPorts: getPorts,
+    pipeEspruino: pipeEspruino
 };

@@ -5,7 +5,7 @@ window.amdDefine('eventListener', [], function () {
         var modal = document.getElementById("settings-modal");
         var modalSave = document.getElementById("modal-save");
 
-        var span = document.getElementsByClassName("close")[0];
+        var span = document.getreadResponseByClassName("close")[0];
         modal.style.display = "block";
 
         span.onclick = function () {
@@ -34,10 +34,10 @@ window.amdDefine('eventListener', [], function () {
     function download(params) {
         ipc.send('download', 'download!');
     }
-    function clear(params) {
 
-        ipc.send('clear', '');
+    function clear() {
         this.editor.getModel().setValue('');
+        $('#terminal-table').empty();
     }
 
     function writeToToast(readResponse) {
@@ -53,9 +53,13 @@ window.amdDefine('eventListener', [], function () {
     }
 
     function writeToTerm(readResponse) {
-        var term = document.getElementById("terminal");
-        readResponse = readResponse.replace("[?7l", "");
-        term.innerText = readResponse;
+        var term = $("#terminal-table");
+        for (let y = 0; y < readResponse.length; y++) {
+            var prev = y - 1;
+            while (prev >= 0 && readResponse[prev] === undefined) prev--;
+            var newLine = $("<div class='termLine' lineNumber='" + y + "'>" + readResponse[y] + "</div>");
+            newLine.appendTo(term);
+        }
     }
 
     function writeToSettings(settings) {
@@ -63,7 +67,7 @@ window.amdDefine('eventListener', [], function () {
         for (let setting in settings) {
             try {
                 var inputForm = formData.querySelector(`*[name="${setting}"]`).type;
-                if(inputForm == "checkbox"){
+                if (inputForm == "checkbox") {
                     formData.querySelector(`*[name="${setting}"]`).checked = settings[setting];
                 } else {
                     formData.querySelector(`*[name="${setting}"]`).value = settings[setting];
@@ -77,7 +81,7 @@ window.amdDefine('eventListener', [], function () {
     function expando() {
         this.isExpanded = !this.isExpanded;
 
-        if(this.isExpanded){
+        if (this.isExpanded) {
             document.getElementById("terminal").style.flex = "0%";
             document.getElementById("terminal").style.display = "none";
             document.getElementById("editor").style.flex = "95%";
@@ -119,6 +123,14 @@ window.amdDefine('eventListener', [], function () {
 
         ipc.on('writeSettings', (event, readResponse) => {
             writeToSettings(readResponse)
+        });
+
+        ipc.addListener('jam', (event, readResponse) => {
+            console.log("JAAAAAM")
+        });
+
+        ipc.on('jam', (event, readResponse) => {
+            console.log("JAAAAAM")
         });
 
         ipc.send('getSettings', '');

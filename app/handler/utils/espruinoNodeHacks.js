@@ -46,7 +46,6 @@ function writeToEspruinoHack() {
                                 Espruino.Core.Serial.write("\x03\x03echo(1)\n", false, callback);
                             } else {
                                 prevReader(combineRawRes(Uint8Array, ...rawResArr));
-                                Espruino.Core.Serial.startListening(prevReader);
                                 if (callback) callback();
                             }
                         }
@@ -79,6 +78,7 @@ function setupHacks() {
 
 module.exports = {
     setupHacks: setupHacks,
+    combineRawRes: combineRawRes
 };
 
 /// Parse and fix issues like `if (false)\n foo` in the root scope

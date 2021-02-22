@@ -1,5 +1,4 @@
 const electron = require('electron');
-const path = require('path');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const eventListener = require('./app/handler/eventListener');
@@ -21,7 +20,6 @@ function createWindow() {
 	mainWindow.on('closed', function () {
 		mainWindow = null;
 	});
-
 
 	eventListener.emitStartup(mainWindow);
 }
