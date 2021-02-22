@@ -146,19 +146,10 @@ var updateTerminal = function () {
     var terminal = [];
     for (var y in termText) {
         var line = termText[y];
-        if (y == termCursorY) {
-            var ch = Espruino.Core.Utils.getSubString(line, termCursorX, 1);
-            line = Espruino.Core.Utils.escapeHTML(
-                Espruino.Core.Utils.getSubString(line, 0, termCursorX)) +
-                "<span class='terminal__cursor'>" + Espruino.Core.Utils.escapeHTML(ch) + "</span>" +
-                Espruino.Core.Utils.escapeHTML(Espruino.Core.Utils.getSubString(line, termCursorX + 1));
-
-            console.log(line);
-        } else {
-            line = Espruino.Core.Utils.escapeHTML(line);
-            // handle URLs
-            line = line.replace(/(https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/\?]+)/g, '<a href="$1" target="_blank">$1</a>');
-        }
+        line = Espruino.Core.Utils.escapeHTML(line);
+        // handle URLs
+        line = line.replace(/(https?:\/\/[-a-zA-Z0-9@:%._\+~#=\/\?]+)/g, '<a href="$1" target="_blank">$1</a>');
+        
         // detect inline images and link them in
         var m = line.match(/data:image\/\w+;base64,[\w\+\/=]+/);
         if (m) {
@@ -170,26 +161,9 @@ var updateTerminal = function () {
             line = termExtraText[y] + line;
         }
 
-
-
         elements[y] = line;
         terminal.push(line);
     }
-    // now show the line where the cursor is
-    // if (elements[termCursorY] !== undefined) {
-    //     terminal[0].scrollTop = elements[termCursorY][0].offsetTop;
-    // }
-    /* Move input box to the same place as the cursor, so Android devices
-    keep that part of the screen in view */
-    // var cursor = document.getElementsByClassName("terminal__cursor");
-    // if (cursor.length) {
-    //     var pos = cursor[0].getBoundingClientRect();
-    //     var terminalfocus = document.getElementById("terminalfocus");
-    //     var x = Math.min(pos.left, terminal.offsetWidth);
-    //     terminalfocus.style.left = x + "px";
-    //     terminalfocus.style.top = pos.top + "px";
-    //     terminalfocus.style["z-index"] = -100;
-    // }
     return terminal;
 };
 
