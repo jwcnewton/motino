@@ -30,9 +30,9 @@ Settings
 
 ### TODO
 
-- [ ] Reset on write
+- [x] Reset on write
 - [ ] Interactive shell
-- [ ] Format console response
+- [x] Format console response
 - [ ] Allow flashing
 - [ ] List available ports
 - [ ] Generate packages
