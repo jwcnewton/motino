@@ -5,7 +5,7 @@ window.amdDefine('eventListener', [], function () {
         var modal = document.getElementById("settings-modal");
         var modalSave = document.getElementById("modal-save");
 
-        var span = document.getreadResponseByClassName("close")[0];
+        var span = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
 
         span.onclick = function () {
